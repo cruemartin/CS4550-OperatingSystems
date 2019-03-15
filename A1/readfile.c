@@ -31,7 +31,9 @@ void readFile(zipTowns arrs, FILE * infile, int * length){
     unsigned int tempZip;
     char tempCity[25];
 
-    while(fscanf(infile, "%u %s", &tempZip, tempCity) !=0){
+
+
+    while(fscanf(infile, "%u %s", &tempZip, tempCity) !=-1){
         arrs.cities[*length].zip  = tempZip;
 
         arrs.cities[*length].town = malloc(sizeof(tempCity));

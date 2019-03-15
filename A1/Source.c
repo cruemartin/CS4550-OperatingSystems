@@ -7,7 +7,7 @@
 #include "interactive.h"
 
 void getArrs(zipTowns * arrs, int size) {  // mallocs arrays of size elements
-	arrs->zips = (int *) malloc(sizeof(int) * size);
+	arrs->zips = malloc(sizeof(int) * size);
 	// two more lines
 	arrs->cities = malloc(sizeof(city) *size);
 
@@ -22,6 +22,9 @@ extern int getArgsInfoOpenFile(int argc, char * argv[], FILE * * infile, int * s
 int main(int argc, char * argv[]) {
 	zipTowns arrs; // all the arrays in one struct
 	int length = 0;		// current count of items in arrays 
+
+
+	printf("%s/n", argv[1]);
 
 	FILE * infile = NULL;
 
@@ -48,6 +51,9 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 {
 	int retval = 0;	
 	char * fileName;
+
+	printf("\nargv1= %s\n", argv[1]);
+
 	// test for correct arguments number 3: exename, filename, size
 	if(argc != 3){
 		retval =-1;
@@ -56,13 +62,17 @@ int getArgsInfoOpenFile(int argc, char * argv[], FILE ** infile, int * size) // 
 	else{
 
 		*size = atoi(argv[2]);
-		if((*infile = fopen(argv[1], "r") == NULL)){
-			retval =0;
+		if((infile = fopen(argv[1], "r") == NULL)){
+			retval =-1;
 		}
 		
+		//print(]n)+
+		printf("\n\nsize %d\n\n", *size);
 
 	}
 	
 	// return file and size in parameters or error
+	//printf("file %s", *infile);
+	printf("\n\nretrival= %d\n\n", retval);
 	return retval;
 }

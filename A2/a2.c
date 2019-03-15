@@ -4,22 +4,38 @@
 #include "a2.h"
 
 
-// #define COUNT 48;
+#define COUNT 48
+
+
+void createStructs(process *proc);
+// void setupReadyQueue(unsigned int * q);
+void enqueue(unsigned int *q, unsigned int *qCount, int process);
+unsigned int dequeue(unsigned int *q, unsigned int *qCount);
 
 
 int main(int argc, char *agrv[]){
 
-   // printf("hello wolrd");
+	unsigned int *q = malloc(COUNT);
+	unsigned int *io = malloc(COUNT);
+	unsigned int qCount =0;
+	unsigned int ioCount =0;
 
-    printf("\nhere at the very top of main\n");
+	//Allocate memory for the pointer to structs
+    process *proc = malloc(sizeof(process)*COUNT);
 
-    int count = 48;
-    int i =0;
-
+	//Called createStructs to create and fill stucts 
+	createStructs(proc);
     
-    process *proc = malloc(sizeof(process)*count);
+	//set up prority queue
 
-    for(i; i<48; i++){
+    return 0;
+}
+
+void createStructs(process *proc){
+	int i =0;
+
+	//Allocate memory for the varibles of each struct
+    for(i; i<COUNT; i++){
          proc[i].priority = malloc(sizeof(ui)); // never changes
 	     proc[i].cpu = malloc(sizeof(ui));  // time in cpu before I/O
 	     proc[i].io = malloc(sizeof(ui)); // time I/O takes
@@ -37,14 +53,16 @@ int main(int argc, char *agrv[]){
 	     proc[i].waitMin = malloc(sizeof(ui)); // smallest time in ready queue
 	     proc[i].waitMax = malloc(sizeof(ui)); // longet time in ready queu
     }
-    
-    
-    i =0;
+
+	i =0;
+
+	// open file
 
     FILE * file;
           
     file = fopen("testinput", "r");
-   
+
+	//read in the information from the file and intialize the stuct variables 
     while(fscanf(file, "%u %u %u %u", &proc[i].priority, &proc[i].cpu, &proc[i].io, &proc[i].runTime) != -1){
 
         //fprintf(stdout,"%d\n", i);
@@ -66,9 +84,27 @@ int main(int argc, char *agrv[]){
     }
 
     fclose(file);
-    //printf("%d\n", i);
+}
 
+// void setupReadyQueue(unsigned int * q){
+// 	for(int i=0; i<COUNT; i++){
+// 		q[i]=i;
+// 	}
+// }
 
+void enqueue(unsigned int *q, unsigned int *qCount, int process){
+	q[(unsigned int)*qCount] = process;
+}
 
-    return 0;
+unsigned int dequeue(unsigned int *q, unsigned int *qCount){
+	unsigned int oldFront = q[0];
+
+	for(int i=0; i<*qCount; i++){
+
+		q[i] = q[i+1];
+	}
+
+	*qCount = *qCount-1;
+
+	return oldFront;
 }
