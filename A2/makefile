@@ -13,3 +13,6 @@ clean:
 
 run : a2
 		./a2
+
+debug: a2
+		valgrind --leak-check=yes ./a2
